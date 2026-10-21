@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENIUS Act Readiness Checklist</title>
+<meta name="description" content="Check off the action items your organisation needs for the OCC's GENIUS Act final rule (12 CFR part 15) and get your readiness score.">
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --surface-2: #eef2f8;
+    --text: #0f1b2d;
+    --muted: #5b6b82;
+    --border: #dbe2ee;
+    --accent: #1f4fd8;
+    --accent-ink: #ffffff;
+    --critical: #c4372f;
+    --important: #b7791f;
+    --recommended: #2f7d5b;
+    --good: #1f8a5b;
+    --shadow: 0 1px 2px rgba(15,27,45,.06), 0 8px 24px rgba(15,27,45,.06);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0b1220;
+      --surface: #111a2c;
+      --surface-2: #17233a;
+      --text: #e7edf7;
+      --muted: #93a3bb;
+      --border: #24324d;
+      --accent: #6b93ff;
+      --accent-ink: #0b1220;
+      --critical: #ff7a70;
+      --important: #f2b45a;
+      --recommended: #5fd0a0;
+      --good: #5fd0a0;
+      --shadow: none;
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+  header.hero { padding: 56px 0 24px; }
+  .eyebrow {
+    display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--accent); background: var(--surface-2); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 999px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; margin: 16px 0 12px; letter-spacing: -.02em; }
+  .lede { color: var(--muted); font-size: 18px; max-width: 66ch; margin: 0; }
+  .note {
+    margin-top: 20px; font-size: 14px; color: var(--muted);
+    background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    padding: 12px 14px; border-radius: 8px;
+  }
+  .note p { margin: 0 0 6px; }
+  .note p:last-child { margin-bottom: 0; }
+
+  /* Key dates */
+  .dates { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin-top: 20px; }
+  .date {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px;
+  }
+  .date strong { display: block; font-size: 15px; }
+  .date span { font-size: 13px; color: var(--muted); }
+
+  /* Profile picker */
+  .panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow);
+    padding: 20px; margin: 28px 0 8px;
+  }
+  .panel h2 { font-size: 19px; margin: 0 0 4px; }
+  .panel > p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+  .profiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+  .profile {
+    display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start;
+    border: 1px solid var(--border); border-radius: 10px; padding: 12px; cursor: pointer; background: var(--surface);
+  }
+  .profile:hover { background: var(--surface-2); }
+  .profile:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  .profile input { margin: 3px 0 0; accent-color: var(--accent); width: 16px; height: 16px; }
+  .profile strong { display: block; font-size: 15px; }
+  .profile span { display: block; font-size: 13px; color: var(--muted); }
+  .addon { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: 15px; cursor: pointer; }
+  .addon input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); }
+  .addon span small { display: block; color: var(--muted); font-size: 13px; }
+
+  /* Sticky progress bar */
+  .progress {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  .progress .wrap { display: flex; align-items: center; gap: 14px; }
+  .bar { flex: 1; height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
+  .bar > span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
+  .progress-label { font-size: 14px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 24px 0 8px; font-size: 13px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  section.cat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); margin: 18px 0; overflow: hidden;
+  }
+  .cat-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 18px 20px 6px; }
+  .cat-head h2 { font-size: 19px; margin: 0; }
+  .cat-count { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .cat-desc { margin: 0; padding: 0 20px 12px; color: var(--muted); font-size: 14px; }
+
+  ul.items { list-style: none; margin: 0; padding: 0; }
+  ul.items li { border-top: 1px solid var(--border); }
+  label.item {
+    display: grid; grid-template-columns: 24px 1fr; gap: 12px;
+    padding: 14px 20px; cursor: pointer; transition: background .15s;
+  }
+  label.item:hover { background: var(--surface-2); }
+  label.item input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); cursor: pointer; }
+  .item-title { font-weight: 600; display: block; }
+  .item-detail { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+  .cite { display: inline-block; font-size: 12px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+  label.item input:checked ~ .item-body .item-title { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
+
+  .tag {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+    padding: 1px 7px; border-radius: 999px; border: 1px solid currentColor; margin-left: 6px; vertical-align: 2px;
+  }
+  .tag.critical { color: var(--critical); }
+  .tag.important { color: var(--important); }
+  .tag.recommended { color: var(--recommended); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 28px 0 12px; }
+  button, .btn {
+    font: inherit; font-weight: 600; border-radius: 10px; padding: 12px 20px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  button.primary, .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  button:hover, .btn:hover { filter: brightness(1.05); }
+  button:focus-visible, .btn:focus-visible, label.item:focus-within, .profile:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Result */
+  #result {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow);
+    padding: 28px 24px; margin: 24px 0 40px; scroll-margin-top: 64px;
+  }
+  .score-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+  .ring { --p: 0; --c: var(--accent); width: 132px; height: 132px; border-radius: 50%; flex: none;
+    background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--surface-2) 0);
+    display: grid; place-items: center; }
+  .ring > div { width: 104px; height: 104px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; text-align: center; }
+  .ring strong { font-size: 32px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .ring small { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .score-text { flex: 1; min-width: 240px; }
+  .score-text h2 { margin: 0 0 6px; font-size: 24px; }
+  .score-text p { margin: 0; color: var(--muted); }
+
+  .breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px 16px; margin-top: 22px; font-size: 14px; }
+  .breakdown div { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px dashed var(--border); padding: 4px 0; }
+  .breakdown span:last-child { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+  .gaps h3 { font-size: 16px; margin: 26px 0 8px; }
+  .gaps ul { margin: 0; padding-left: 20px; }
+  .gaps li { margin: 4px 0; }
+  .gaps li small { color: var(--muted); }
+  .gaps .none { color: var(--good); font-weight: 600; }
+
+  .cta {
+    margin-top: 28px; padding: 22px; border-radius: 12px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;
+  }
+  .cta p { margin: 0; max-width: 54ch; }
+  .cta strong { display: block; font-size: 18px; margin-bottom: 4px; }
+
+  footer { color: var(--muted); font-size: 13px; padding: 24px 0 48px; border-top: 1px solid var(--border); margin-top: 24px; }
+  footer p { margin: 6px 0; }
+
+  @media (max-width: 520px) {
+    header.hero { padding-top: 36px; }
+    .cat-head { flex-direction: column; gap: 2px; }
+    label.item { padding: 14px 16px; }
+    .cat-head, .cat-desc { padding-left: 16px; padding-right: 16px; }
+    .panel { padding: 16px; }
+    .ring { width: 112px; height: 112px; }
+    .ring > div { width: 88px; height: 88px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">OCC final rule · 12 CFR part 15 · GENIUS Act</span>
+    <h1>Are you ready for the GENIUS Act?</h1>
+    <p class="lede">The OCC's final rule implementing the Guiding and Establishing National Innovation for U.S. Stablecoins (GENIUS) Act sets the requirements for payment stablecoin issuers and custodians under its jurisdiction. Choose your profile, check off what you've already done, then get your readiness score.</p>
+    <div class="dates" aria-label="Key dates and deadlines">
+      <div class="date"><strong>January 18, 2027</strong><span>The GENIUS Act and the OCC final rule take effect</span></div>
+      <div class="date"><strong>Monthly, by noon on the last day</strong><span>Reserve report published, accountant's examination posted, CEO/CFO certification sent</span></div>
+      <div class="date"><strong>Within 2 business days</strong><span>Maximum time to redeem payment stablecoins</span></div>
+      <div class="date"><strong>Within 24 hours</strong><span>Notify the OCC of redemption requests over 10% in a day, or a capital or backstop shortfall</span></div>
+    </div>
+    <div class="note">
+      <p>This checklist is based on the OCC final rule announced on October 21, 2026. Bank Secrecy Act, anti-money-laundering and sanctions requirements will be set in a separate OCC rulemaking, but the Act's own requirements in those areas still apply.</p>
+      <p>Issuers supervised by other regulators (the Federal Reserve, FDIC, NCUA or a state regulator) will follow those regulators' rules. This page is not legal advice.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="panel" aria-labelledby="profile-h">
+    <h2 id="profile-h">1. Who are you?</h2>
+    <p>The checklist only shows the action items that apply to your type of organisation.</p>
+    <div class="profiles" id="profiles"></div>
+    <label class="addon" id="custody-addon">
+      <input type="checkbox" id="custody-toggle">
+      <span>We also hold stablecoins, reserves or issuance keys in custody for others
+        <small>Adds the custody requirements in subpart C of the rule.</small></span>
+    </label>
+  </section>
+</div>
+
+<div class="progress" aria-hidden="true">
+  <div class="wrap">
+    <div class="bar"><span id="bar-fill"></span></div>
+    <span class="progress-label" id="progress-label">0 of 0 complete</span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="legend">
+    <span><span class="tag critical" style="margin:0">Critical</span> 3 points</span>
+    <span><span class="tag important" style="margin:0">Important</span> 2 points</span>
+    <span><span class="tag recommended" style="margin:0">Recommended</span> 1 point</span>
+  </div>
+
+  <form id="checklist" novalidate></form>
+
+  <div class="actions">
+    <button type="button" class="primary" id="score-btn">Get my readiness score</button>
+    <button type="button" id="reset-btn">Reset checklist</button>
+  </div>
+
+  <section id="result" hidden aria-live="polite"></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Sources: <a href="https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html" target="_blank" rel="noopener">OCC news release 2026-92</a> and <a href="https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92a.pdf" target="_blank" rel="noopener">the final rule (12 CFR parts 3, 6, 8, 15 and 19)</a>. Citations refer to sections of 12 CFR unless noted otherwise.</p>
+    <p>This page is an independent readiness tool and is not affiliated with, or endorsed by, the Office of the Comptroller of the Currency.</p>
+    <p>Your answers stay in your browser and are not sent anywhere.</p>
+  </div>
+</footer>
+
+<script>
+  const CERTIK_URL = "https://www.certik.com/";
+  const WEIGHTS = { critical: 3, important: 2, recommended: 1 };
+
+  const PROFILES = [
+    { id: "federal", title: "Federal qualified issuer", desc: "A nonbank company, uninsured national bank or Federal branch seeking OCC approval to issue." },
+    { id: "banksub", title: "Bank subsidiary issuer", desc: "A subsidiary of an insured national bank, Federal savings association or insured Federal branch." },
+    { id: "state", title: "State issuer over $10 billion", desc: "A nonbank state-qualified issuer whose outstanding issuance has reached (or will reach) $10 billion." },
+    { id: "foreign", title: "Foreign issuer", desc: "An issuer organised outside the U.S. that wants to offer its payment stablecoin to U.S. customers." },
+    { id: "custodian", title: "Custodian only", desc: "A national bank, Federal savings association or Federal branch that holds stablecoins, reserves or keys for others." }
+  ];
+
+  // Profile groups used by each item
+  const ISSUERS = ["federal", "banksub", "state"];
+  const APPLICANTS = ["federal", "banksub"];
+  const ALL_ISSUERS = ["federal", "banksub", "state", "foreign"];
+  const CUSTODY = "custody"; // shown when the custody add-on is on, or for the custodian profile
+
+  const CATEGORIES = [
+    {
+      id: "apply", title: "Licensing and applications",
+      desc: "You need OCC approval before you issue. A substantially complete application is deemed approved after 120 days unless the OCC denies it.",
+      items: [
+        ["ap-file", "critical", APPLICANTS, "File an application with the OCC and get approval before issuing", "Bank subsidiaries apply through their parent bank. Nonbanks, uninsured national banks and Federal branches apply to become Federal qualified issuers. The OCC will announce when it starts accepting applications.", "§ 15.30(a)"],
+        ["ap-bio", "critical", APPLICANTS, "Prepare biographical and financial reports for every director, executive officer and principal shareholder", "Principal shareholders own or control 10% or more of voting stock. The OCC may collect fingerprints for an FBI criminal background check.", "§ 15.30(b)(1)(ii), (b)(4)(iii)"],
+        ["ap-felony", "critical", APPLICANTS, "Confirm no officer or director has a disqualifying felony conviction", "Convictions involving insider trading, embezzlement, cybercrime, money laundering, terrorist financing or financial fraud count against an application.", "§ 15.30(d)(2)"],
+        ["ap-run", "important", APPLICANTS, "Show that your structure addresses run risk and protects redemption", "The OCC weighs financial resources, management competence and integrity, your redemption policy, and whether you can operate safely and soundly.", "§ 15.30(d)"],
+        ["ap-412", "important", ["federal", "banksub", "foreign"], "Determine whether section 4(a)(12) of the Act applies to you", "Applicants must certify whether the extra requirements for public companies not predominantly engaged in financial activities apply. If they do, approval may be conditioned on a Stablecoin Certification Review Committee finding.", "§ 15.30(b)(1)(iv); § 15.32(b)(1)(vi)"],
+        ["ap-accuracy", "important", ["federal", "banksub", "foreign"], "Put a review process in place for everything you file with the OCC", "Applicants certify there are no material misrepresentations or omissions. Misstatements can lead to enforcement, criminal penalties under 18 U.S.C. 1001, or nullification of an approval.", "§ 15.30(b)(1)(iii), (h)"],
+        ["ap-waiver", "important", APPLICANTS, "If you will operate on January 18, 2027, have a substantially complete application pending and request a waiver", "With an application pending on or before that date, you can ask the OCC to waive the requirements for up to 12 months.", "§ 15.30(g)"],
+        ["ap-control", "recommended", ISSUERS, "Plan for change-in-control filings", "Anyone seeking to acquire control of a permitted issuer must follow 12 CFR 5.50 as if the issuer were a national bank.", "§ 15.14(m)"]
+      ]
+    },
+    {
+      id: "activities", title: "Permitted activities and prohibitions",
+      desc: "A permitted payment stablecoin issuer can only carry out a short list of stablecoin-related activities, and certain conduct is banned outright.",
+      items: [
+        ["ac-scope", "critical", ISSUERS, "Limit your business to the permitted activities", "Issuing and redeeming stablecoins, managing reserves, custody of stablecoins, reserves or keys, purchase and redemption fees, acting as principal or agent, and activities that directly support these.", "§ 15.10(a)"],
+        ["ac-yield", "critical", ALL_ISSUERS, "Pay no interest or yield to holders for holding, using or keeping your stablecoin", "This covers cash, tokens or any other consideration, for retail and institutional holders alike. The final rule dropped the proposed presumption against affiliate payments, but the OCC keeps its authority to act against evasion.", "§ 15.10(c)(4); § 15.31(c)"],
+        ["ac-name", "critical", ISSUERS, "Check your stablecoin's name and marketing", "Don't use \"United States\", \"USG\" or similar terms in the name (\"USD\" is fine). Never suggest the coin is legal tender, government-issued or guaranteed, or federally insured.", "§ 15.10(c)(1)–(3)"],
+        ["ac-rehyp", "critical", ISSUERS, "Don't pledge, rehypothecate or reuse reserve assets", "Only exceptions: margin on permitted repo positions, standard custodial services, or repo of Treasury bills maturing in 93 days or less to meet redemptions (the OCC has pre-approved these repos).", "§ 15.10(c)(5), (d)"],
+        ["ac-lawful", "critical", ALL_ISSUERS, "Build the technical ability to comply with lawful orders", "Your stablecoin and wallet setup must let you comply with lawful orders, for example by blocking or freezing tokens.", "GENIUS Act § 4(a)(6)"],
+        ["ac-crypto", "important", ISSUERS, "Cap your holdings of other digital assets", "Hold non-stablecoin digital assets only as needed to pay customer or network fees or to test on distributed ledgers.", "§ 15.10(a)(8)"],
+        ["ac-trust", "recommended", ISSUERS, "If you use a trust for reserves, structure it to protect holders", "Any security interest must be solely for holders, must not hinder normal redemption, must not create competing claims in insolvency, and must let a receiver liquidate reserves promptly.", "§ 15.10(a)(9)"]
+      ]
+    },
+    {
+      id: "reserves", title: "Reserve assets",
+      desc: "Every stablecoin must be backed at least one-for-one by high-quality, liquid reserves that you can turn into cash under stress.",
+      items: [
+        ["rs-11", "critical", ISSUERS, "Back every coin at least one-for-one with identifiable, segregated reserves", "Reserve value must equal or exceed outstanding issuance at all times. Reserves are held directly or at an eligible financial institution, never commingled with your other assets.", "§ 15.11(a)(1)"],
+        ["rs-eligible", "critical", ISSUERS, "Hold only eligible reserve assets", "U.S. coins and currency, Federal Reserve balances, demand deposits at insured depository institutions, Treasuries with 93 days or less remaining, overnight repo and reverse repo on Treasury collateral, government money market funds holding only these assets, OCC-approved government assets, or tokenized versions.", "§ 15.11(b)"],
+        ["rs-5pct", "critical", ISSUERS, "Keep at least 5% of reserves available on demand", "Held as demand deposits, share accounts payable on demand, or a Federal Reserve Bank account.", "§ 15.11(c)(2)(i)"],
+        ["rs-40pct", "critical", ISSUERS, "Limit exposure to any one counterparty to 40% of reserves", "Exempt: the U.S. Government, appropriate custodians, and centrally cleared repo or reverse repo.", "§ 15.11(c)(2)(ii)"],
+        ["rs-custodian", "important", ISSUERS, "Qualify each reserve custodian for the concentration exemption", "Identify yourself as a permitted issuer, get the custodian's commitment to section 10 of the Act, and monitor the arrangement on an ongoing basis.", "§ 15.11(d)"],
+        ["rs-diverse", "important", ISSUERS, "Diversify reserves beyond the minimums where your risk profile requires it", "Manage credit, liquidity, interest rate and price risk, and the risk that one bank can't return funds quickly. Vet bilateral reverse repo counterparties for creditworthiness under severe stress.", "§ 15.11(b)(5)(iii), (c)(1)"],
+        ["rs-monetize", "critical", ISSUERS, "Prove you can turn reserves into cash in normal and adverse markets", "Cover market access, financing channels, haircut assumptions and operational readiness. You must be able to demonstrate this to the OCC.", "§ 15.11(a)(2); § 15.13(a)(9)(ii)"],
+        ["rs-buffer", "important", ISSUERS, "Keep a buffer and control withdrawals of excess reserves", "Hold reserves above outstanding issuance where needed, and withdraw any excess only after confirming the withdrawal won't cause a shortfall.", "§ 15.11(a)(3)–(4)"],
+        ["rs-shortfall", "critical", ISSUERS, "Have a reserve-shortfall playbook ready", "Notify the OCC the same day reserves fall short and stop new issuance immediately. After 15 consecutive business days short, begin liquidation and redeem with no fees.", "§ 15.11(g)"]
+      ]
+    },
+    {
+      id: "redeem", title: "Redemption and disclosures",
+      desc: "Holders must be able to redeem quickly, and must be told clearly who stands behind the coin and what it costs.",
+      items: [
+        ["rd-policy", "critical", ISSUERS, "Publish a redemption policy with every required element", "Your redemption timeframe; that timely redemption may not exceed 2 business days; that only regulators can limit redemptions; when timing can be extended; step-by-step instructions with a link; and any minimum (you must redeem any amount of one coin or more).", "§ 15.12(b)–(c)"],
+        ["rd-2day", "critical", ISSUERS, "Be able to redeem within 2 business days", "Redemption counts as complete when you have initiated the outgoing transfer or credited the customer's account with you.", "§ 15.12(a)(2), (c)(1)"],
+        ["rd-onboard", "important", ISSUERS, "Make sure onboarding doesn't unduly delay redemption, including under stress", "The redemption clock starts after onboarding only if your onboarding procedures are reasonably designed not to cause undue delay.", "§ 15.12(a)(1)"],
+        ["rd-10pct", "critical", ISSUERS, "Notify the OCC within 24 hours of a redemption surge", "Redemption requests over 10% of a brand's outstanding issuance in a single 24-hour period trigger notice. You may then ask the OCC for more time.", "§ 15.12(d)"],
+        ["rd-disclose", "critical", ISSUERS, "Publish clear, plain-language disclosures separate from other information", "Your name as issuer and redeemer, a link to the monthly reserve report, all purchase and redemption fees, and that the coin is not legal tender, not government-backed, not a deposit and not FDIC- or NCUA-insured.", "§ 15.12(e)(1)"],
+        ["rd-fees", "important", ISSUERS, "Give 7 calendar days' notice of fee changes and repeat disclosures in customer agreements", "Post disclosures and updates on your website and notify current customers directly.", "§ 15.12(e)(2)–(4)"]
+      ]
+    },
+    {
+      id: "reporting", title: "Reserve transparency and reporting",
+      desc: "The rule sets a fixed monthly, weekly, quarterly and annual reporting calendar.",
+      items: [
+        ["rp-monthly", "critical", ISSUERS, "Publish a monthly reserve composition report using the OCC template", "Due by noon on the last day of each month, as of the prior month-end. Show outstanding coins by brand, then the amount, average tenor and custody location of each reserve category. Show tokenized reserves separately and give separate pools or SPV issuers their own tables.", "§ 15.11(e)"],
+        ["rp-cpa", "critical", ISSUERS, "Have a registered public accounting firm examine each monthly report", "Publish the accounting firm's examination report on your website at the same time as the reserve report.", "§ 15.11(f)(1)"],
+        ["rp-cert", "critical", ISSUERS, "Set up monthly CEO and CFO certification of the reserve report to the OCC", "Both executives (or those in equivalent roles) must certify that the report is accurate.", "§ 15.11(f)(2)"],
+        ["rp-weekly", "important", ISSUERS, "Prepare for confidential weekly reporting to the OCC", "Submitted in the form published at occ.gov.", "§ 15.14(h)"],
+        ["rp-quarterly", "critical", ISSUERS, "File quarterly financial condition reports within 30 days of quarter-end", "Include income, expenses, balance sheet, reserves, capital, outstanding issuance and assets under custody. The CFO declares the report true and correct, and directors and senior management attest to it.", "§ 15.14(i)"],
+        ["rp-capital", "important", ISSUERS, "Publicly report capital and backstop compliance every quarter", "State on the quarterly report whether you met the minimum capital and operational backstop requirements.", "§ 15.41(c)(1)(ii)"],
+        ["rp-audit", "important", ISSUERS, "If you have over $50 billion outstanding and aren't SEC-reporting, publish audited annual financials (or confirm this doesn't apply)", "GAAP statements including related-party transactions, audited by a registered public accounting firm under PCAOB standards. Publish them and submit them to the OCC within 120 days of fiscal year-end.", "§ 15.14(l)"],
+        ["rp-records", "important", ISSUERS, "Keep complete books and records in English with a retention policy", "The retention policy must let you demonstrate compliance with the Act, part 15 and other applicable laws.", "§ 15.14(f)–(g)"],
+        ["rp-exam", "recommended", ISSUERS, "Be ready for annual full-scope OCC examinations", "Give examiners prompt access to people and records, on-site or remotely. Smaller issuers in good standing (under $1 billion) may qualify for an 18- to 24-month cycle.", "§ 15.14(a)–(e)"]
+      ]
+    },
+    {
+      id: "risk", title: "Risk management and governance",
+      desc: "Controls, audit, liquidity and third-party oversight sized to your business and its risks.",
+      items: [
+        ["rk-controls", "critical", ISSUERS, "Establish internal controls and information systems", "Clear lines of authority, segregation of duties and dual controls, effective risk assessment, accurate reporting, safeguards over reserve assets, and legal compliance.", "§ 15.13(a)(1)"],
+        ["rk-audit", "critical", ISSUERS, "Stand up an independent internal audit function", "It must test controls, published customer information, reserve calculations and regulatory filings, and report to the audit committee or board. Smaller issuers may use independent reviews of key controls instead.", "§ 15.13(a)(2)"],
+        ["rk-stress", "critical", ISSUERS, "Stress-test the reserve portfolio regularly", "Model a range of redemption scenarios, including significant rises in interest rates, to confirm reserves stay at or above outstanding issuance.", "§ 15.13(a)(9)(i), (iii)"],
+        ["rk-liquidity", "important", ISSUERS, "Monitor reserve compliance and manage liquidity and concentration risk", "Validate compliance with the reserve rules on an ongoing basis.", "§ 15.13(a)(8)"],
+        ["rk-rates", "important", ISSUERS, "Manage interest rate risk with regular reports to management and the board", "Give the board enough information to judge the level of risk.", "§ 15.13(a)(3)"],
+        ["rk-insider", "important", ISSUERS, "Keep insider and affiliate transactions at arm's length", "They must not harm the issuer or risk material loss, must be on market terms, and must be documented, reviewed by the board and monitored.", "§ 15.13(a)(6)"],
+        ["rk-vendors", "important", ISSUERS, "Oversee service providers", "Do due diligence before selecting them, require compliance with the Act and part 15 in contracts, and review their audits or test results.", "§ 15.13(a)(7)"],
+        ["rk-growth", "recommended", ISSUERS, "Keep growth prudent and earnings sufficient", "Growth must match your risk management, operational capacity and staffing. Monitor earnings so they support operations and required capital.", "§ 15.13(a)(4)–(5)"],
+        ["rk-fx", "important", ISSUERS, "If you issue a non-USD stablecoin, get OCC approval before hedging foreign exchange risk (or confirm this doesn't apply)", "Hedge residual FX risk to a minimal level, never speculate, and keep policies covering margin, counterparty and basis risk.", "§ 15.13(a)(10)"]
+      ]
+    },
+    {
+      id: "tech", title: "Information technology, security and smart contracts",
+      desc: "A board-approved security program covering systems, smart contracts, private keys and customer data.",
+      items: [
+        ["it-program", "critical", ISSUERS, "Adopt a written information security program approved by the board", "The board or a board committee approves and oversees it and appoints a qualified person responsible for it.", "§ 15.13(b)(1)–(2)"],
+        ["it-smart", "critical", ISSUERS, "Validate that key systems and smart contracts operate as intended", "Evaluation, validation and reporting processes for key technology systems and controls, explicitly including smart contracts.", "§ 15.13(b)(3)(iii)"],
+        ["it-testing", "critical", ISSUERS, "Schedule periodic independent testing", "For example independent security reviews and penetration tests of your systems.", "§ 15.13(b)(3)(iv)"],
+        ["it-keys", "critical", ISSUERS, "Secure private key management, backup and recovery", "Account for the technical, operational, legal and compliance risks of each digital asset and ledger you support, and track material developments.", "§ 15.13(b)(5)"],
+        ["it-incident", "critical", ISSUERS, "Run an incident response program with customer and OCC notification", "If sensitive customer information (including private keys) is accessed without authorisation, investigate promptly and notify affected customers and the OCC as soon as possible. Delay customer notice only on written law-enforcement request.", "§ 15.13(b)(3)(v), (b)(7)"],
+        ["it-inventory", "important", ISSUERS, "Inventory and classify assets, processes and data sensitivity", "Pair the inventory with controls that safeguard sensitive information and processes.", "§ 15.13(b)(3)(i)–(ii)"],
+        ["it-customer", "important", ISSUERS, "Safeguard customer information", "Administrative, technical and physical safeguards for confidentiality, against threats and unauthorised access, and for proper disposal.", "§ 15.13(b)(4)"],
+        ["it-resilience", "important", ISSUERS, "Build IT resilience and business continuity", "Business impact analyses, vulnerability testing, and testing with critical service providers.", "§ 15.13(b)(8)"],
+        ["it-adjust", "recommended", ISSUERS, "Review and update the program as threats and your business change", "Including new technology, mergers, partnerships and third-party arrangements.", "§ 15.13(b)(6)"]
+      ]
+    },
+    {
+      id: "capital", title: "Capital and operational backstop",
+      desc: "Separate from reserves: equity capital to absorb losses, and liquid assets to cover a year of running costs.",
+      items: [
+        ["cp-min", "critical", ISSUERS, "Hold at least $5 million in capital", "New issuers hold the greater of $5 million or their licensing condition for 36 months. Capital is GAAP equity minus goodwill, other intangibles, deferred tax assets, and backstop assets funded by equity.", "§ 15.40; § 15.41(a)"],
+        ["cp-icaap", "important", ISSUERS, "Assess capital adequacy against all of your risks", "Have a process for assessing overall capital adequacy, including off-balance-sheet risks, and a strategy for maintaining it.", "§ 15.41(a)(2)"],
+        ["cp-backstop", "critical", ISSUERS, "Fund an operational backstop equal to 12 months of total expenses", "Held in cash, Federal Reserve balances, fully insured demand deposits or Treasuries of 93 days or less, and reported separately from reserves.", "§ 15.41(b)"],
+        ["cp-breach", "critical", ISSUERS, "Have a capital and backstop shortfall playbook", "Notify the OCC within 24 hours. If still short at quarter-end, stop new issuance from the 1st of the next month. After two consecutive quarters short, liquidate and redeem with no fees.", "§ 15.41(c)"],
+        ["cp-debt", "recommended", ISSUERS, "If you use debt for the backstop, make sure it qualifies", "Up to 50% of the backstop can come from subordinated, unsecured debt with at least 5 years to maturity that is not funded by an affiliate.", "§ 15.40(c)"],
+        ["cp-parent", "important", ["banksub"], "Adjust the parent bank's capital ratios for the issuer subsidiary", "Deconsolidate the issuer, deduct its undistributed retained earnings, add back losses, and exclude investments in and receivables from it.", "§ 3.22(i)"]
+      ]
+    },
+    {
+      id: "aml", title: "Anti-money-laundering and sanctions",
+      desc: "The OCC is setting detailed BSA/AML and sanctions rules in a separate rulemaking (proposed June 24, 2026), but the Act's requirements apply now.",
+      items: [
+        ["am-program", "critical", ALL_ISSUERS, "Implement AML and sanctions compliance programs", "Programs must be reasonably designed to prevent money laundering (including for cartels and designated foreign terrorist organisations) and terrorist financing.", "§ 15.14(k); GENIUS Act"],
+        ["am-cert", "critical", ISSUERS, "Prepare the board's AML and sanctions certification", "Due within 180 days of approval and every year after. The first one comes from the board. Missing it can lead the OCC to revoke your approval.", "§ 15.14(k); § 15.33(a)"],
+        ["am-officer", "important", ISSUERS, "Appoint a qualified BSA officer", "The BSA officer counts as an executive officer and can sign later annual certifications.", "§ 15.2; § 15.14(k)(2)"],
+        ["am-track", "recommended", ALL_ISSUERS, "Track the OCC's separate BSA/AML and sanctions rulemaking", "Plan to update your programs when that rule is finalised.", "91 FR 37840"]
+      ]
+    },
+    {
+      id: "fees", title: "OCC fees and assessments",
+      desc: "Nonbank issuers supervised by the OCC pay semiannual assessments.",
+      items: [
+        ["fe-budget", "recommended", ["federal", "state"], "Budget for semiannual OCC assessments", "Due March 31 and September 30, based on your quarterly report. Reserve assets get a 35–55% discount. A surcharge of 1.5x or 2x applies for poor exam ratings, and a custody fee applies if custody provides half or more of your income.", "§ 8.10–8.13"]
+      ]
+    },
+    {
+      id: "state", title: "State issuers crossing $10 billion",
+      desc: "Nonbank state-qualified issuers over $10 billion must move to OCC supervision or stop growing, unless they get a waiver.",
+      items: [
+        ["st-monitor", "critical", ["state"], "Track total consolidated outstanding issuance against $10 billion", "Crossing the threshold starts every deadline below.", "§ 15.15(b)"],
+        ["st-notice", "critical", ["state"], "Notify the OCC in writing within 5 calendar days of crossing $10 billion", "Include your state regulators, current issuance, the date you crossed, whether you've stopped net issuance, and whether you plan to seek a waiver.", "§ 15.15(b)(2)"],
+        ["st-choose", "critical", ["state"], "Decide whether to transition within 360 days or stop net new issuance", "Either comply with the Federal framework within 360 days, or stop issuing on a net basis until you're back under $10 billion.", "§ 15.15(b)(1)"],
+        ["st-waiver", "important", ["state"], "If you want to stay state-supervised, file a waiver request within 240 days", "Approval is presumed if your state had a certified regime in place by April 19, 2025 and has approved at least one issuer, unless the OCC finds otherwise by clear and convincing evidence.", "§ 15.15(d)"],
+        ["st-capital", "critical", ["state"], "Submit a capital analysis within 270 days and hold minimum capital before you transition", "Not required if you get a waiver or aren't transitioning.", "§ 15.15(b)(3)"],
+        ["st-transition", "important", ["state"], "File your compliance notice and prepare for the first OCC exam", "Confirm compliance (or give a remediation plan) at transition. Expect an initial exam within 6 months.", "§ 15.15(b)(4), (c)"]
+      ]
+    },
+    {
+      id: "foreign", title: "Foreign issuer registration",
+      desc: "Foreign issuers can offer stablecoins in the U.S. only if they are registered with the OCC and meet U.S. reserve and reporting conditions.",
+      items: [
+        ["fo-regime", "critical", ["foreign"], "Confirm your home regime has a Treasury comparability determination", "Your home country must also not be under comprehensive U.S. sanctions or designated a primary money laundering concern.", "§ 15.31(a)(1), (a)(4)"],
+        ["fo-register", "critical", ["foreign"], "File for registration with the OCC", "Include Treasury's determination, a commitment to give the OCC all needed information, and your consent to U.S. jurisdiction. Registration is deemed approved after 30 days unless rejected.", "§ 15.32(a)–(b)"],
+        ["fo-reserves", "critical", ["foreign"], "Hold enough reserves at U.S. eligible financial institutions for U.S. customers", "For example, at least 50% of issuance when U.S. holders own less than 50%, or substantially all reserves held in the U.S. An OCC-approved proposal is another option.", "§ 15.31(a)(3)"],
+        ["fo-monthly", "critical", ["foreign"], "Send the OCC a monthly report on U.S. holdings and reserves", "Due by noon on the last day of each month, using the OCC template. Notify the OCC promptly on any day you fall short, and fix any deficiency it identifies.", "§ 15.32(e)(3)"],
+        ["fo-reports", "important", ["foreign"], "Produce the same reports as U.S. permitted issuers, or get a written exemption", "Expect examinations at the same frequency as U.S. issuers.", "§ 15.31(b)"],
+        ["fo-access", "important", ["foreign"], "Make people, books and records available to the OCC in the U.S., in English", "This is a standing condition of registration, along with any conditions in Treasury's determination.", "§ 15.32(e)(1)–(2), (5)"]
+      ]
+    },
+    {
+      id: "custody", title: "Custody of stablecoins, reserves and keys",
+      desc: "Applies to national banks, Federal savings associations, Federal branches and permitted issuers that hold covered assets for customers. Pure self-custody hardware and software providers are excluded.",
+      items: [
+        ["cu-separate", "critical", [CUSTODY], "Record covered assets separately and treat them as customer property", "Covered assets are stablecoin reserves, stablecoins used as collateral, issuance private keys, and related cash and property.", "§ 15.21(a)"],
+        ["cu-creditors", "critical", [CUSTODY], "Protect customer assets from your creditors and any sub-custodian's creditors", "Through written custody agreements, policies, procedures and internal controls suited to your size and risk.", "§ 15.21(b)(1)"],
+        ["cu-control", "critical", [CUSTODY], "Maintain possession or control of every covered asset", "For tokens and keys, you must be able to show that no one else, including the customer, can transfer them without your consent.", "§ 15.21(b)(2)"],
+        ["cu-omnibus", "important", [CUSTODY], "Segregate customer assets and use omnibus accounts only with full disclosure", "Omnibus accounts need adequate recordkeeping and must be disclosed in the custody agreement.", "§ 15.22(a)–(b)"],
+        ["cu-sub", "important", [CUSTODY], "Oversee sub-custodians", "Keep safeguards and controls that make sure sub-custodians segregate your customers' assets from their own.", "§ 15.21(b)(2)(i); § 15.22(c)"]
+      ]
+    }
+  ];
+
+  const STORAGE_KEY = "genius-checklist-v1";
+  const form = document.getElementById("checklist");
+  const resultEl = document.getElementById("result");
+  const custodyToggle = document.getElementById("custody-toggle");
+  const custodyAddon = document.getElementById("custody-addon");
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+  }
+
+  function currentProfile() {
+    return loadState().profile || "federal";
+  }
+  function custodyOn() {
+    const s = loadState();
+    return currentProfile() === "custodian" || !!s.custody;
+  }
+  function applies(profiles) {
+    const p = currentProfile();
+    return profiles.includes(p) || (profiles.includes(CUSTODY) && custodyOn());
+  }
+  function visibleItems() {
+    return CATEGORIES.flatMap(c => c.items
+      .filter(([, , profiles]) => applies(profiles))
+      .map(([id, level, , title, , cite]) => ({ id, level, title, cite, cat: c.title, catId: c.id })));
+  }
+
+  function renderProfiles() {
+    const p = currentProfile();
+    document.getElementById("profiles").innerHTML = PROFILES.map(pr => `
+      <label class="profile">
+        <input type="radio" name="profile" value="${pr.id}" ${pr.id === p ? "checked" : ""}>
+        <span><strong>${escapeHtml(pr.title)}</strong><span>${escapeHtml(pr.desc)}</span></span>
+      </label>`).join("");
+    custodyToggle.checked = custodyOn();
+    custodyAddon.hidden = p === "custodian";
+  }
+
+  function render() {
+    const state = loadState();
+    const checked = state.checked || {};
+    form.innerHTML = CATEGORIES.map(cat => {
+      const items = cat.items.filter(([, , profiles]) => applies(profiles));
+      if (!items.length) return "";
+      return `
+      <section class="cat" aria-labelledby="h-${cat.id}">
+        <div class="cat-head">
+          <h2 id="h-${cat.id}">${escapeHtml(cat.title)}</h2>
+          <span class="cat-count" data-cat="${cat.id}"></span>
+        </div>
+        <p class="cat-desc">${escapeHtml(cat.desc)}</p>
+        <ul class="items">
+          ${items.map(([id, level, , title, detail, cite]) => `
+            <li>
+              <label class="item">
+                <input type="checkbox" name="${id}" ${checked[id] ? "checked" : ""}>
+                <span class="item-body">
+                  <span class="item-title">${escapeHtml(title)}<span class="tag ${level}">${level}</span></span>
+                  <span class="item-detail">${escapeHtml(detail)}</span>
+                  <span class="cite">${escapeHtml(cite)}</span>
+                </span>
+              </label>
+            </li>`).join("")}
+        </ul>
+      </section>`;
+    }).join("");
+    updateProgress();
+  }
+
+  function checkedSet() {
+    return new Set([...form.querySelectorAll("input:checked")].map(i => i.name));
+  }
+
+  function updateProgress() {
+    const done = checkedSet();
+    const items = visibleItems();
+    const n = items.filter(i => done.has(i.id)).length;
+    document.getElementById("bar-fill").style.width = (items.length ? n / items.length * 100 : 0) + "%";
+    document.getElementById("progress-label").textContent = `${n} of ${items.length} complete`;
+    CATEGORIES.forEach(cat => {
+      const el = form.querySelector(`.cat-count[data-cat="${cat.id}"]`);
+      if (!el) return;
+      const catItems = items.filter(i => i.catId === cat.id);
+      el.textContent = `${catItems.filter(i => done.has(i.id)).length} / ${catItems.length}`;
+    });
+  }
+
+  function band(score, criticalMissing) {
+    if (score >= 90 && criticalMissing === 0) return { title: "Ready for January 18, 2027", color: "var(--good)", text: "Your core GENIUS Act foundations are in place. An independent review can confirm your controls and smart contracts hold up before the OCC examines them." };
+    if (score >= 70) return { title: "Nearly there", color: "var(--accent)", text: "Most foundations are in place, but the gaps below could delay approval or draw findings in your first OCC examination." };
+    if (score >= 40) return { title: "Significant gaps", color: "var(--important)", text: "You've made a start, but several required controls are missing. Work through the critical items first." };
+    return { title: "Early stage", color: "var(--critical)", text: "Most GENIUS Act readiness work is still ahead of you. Start with the critical items below." };
+  }
+
+  function showResult() {
+    const done = checkedSet();
+    const items = visibleItems();
+    if (!items.length) return;
+    const total = items.reduce((s, i) => s + WEIGHTS[i.level], 0);
+    const earned = items.filter(i => done.has(i.id)).reduce((s, i) => s + WEIGHTS[i.level], 0);
+    const score = Math.round(earned / total * 100);
+    const missing = items.filter(i => !done.has(i.id));
+    const byLevel = lvl => missing.filter(i => i.level === lvl);
+    const b = band(score, byLevel("critical").length);
+    const profile = PROFILES.find(p => p.id === currentProfile());
+
+    const catRows = CATEGORIES.map(cat => {
+      const ci = items.filter(i => i.catId === cat.id);
+      if (!ci.length) return "";
+      const t = ci.reduce((s, i) => s + WEIGHTS[i.level], 0);
+      const e = ci.filter(i => done.has(i.id)).reduce((s, i) => s + WEIGHTS[i.level], 0);
+      return `<div><span>${escapeHtml(cat.title)}</span><span>${Math.round(e / t * 100)}%</span></div>`;
+    }).join("");
+
+    const gapList = (lvl, label) => {
+      const list = byLevel(lvl);
+      if (!list.length) return "";
+      return `<h3>${label} (${list.length})</h3><ul>${list.map(i => `<li>${escapeHtml(i.title)} <small>${escapeHtml(i.cite)}</small></li>`).join("")}</ul>`;
+    };
+
+    resultEl.innerHTML = `
+      <div class="score-row">
+        <div class="ring" style="--p:${score};--c:${b.color}" role="img" aria-label="Readiness score ${score} out of 100">
+          <div><div><strong>${score}</strong><small>out of 100</small></div></div>
+        </div>
+        <div class="score-text">
+          <h2>${b.title}</h2>
+          <p>${b.text}</p>
+          <p style="margin-top:8px;font-size:14px">${escapeHtml(profile.title)}${custodyOn() && profile.id !== "custodian" ? " with custody" : ""} · ${items.length - missing.length} of ${items.length} action items complete · ${earned} of ${total} weighted points</p>
+        </div>
+      </div>
+      <div class="breakdown">${catRows}</div>
+      <div class="gaps">
+        ${missing.length
+          ? gapList("critical", "Critical gaps") + gapList("important", "Important gaps") + gapList("recommended", "Recommended next steps")
+          : `<h3>Gaps</h3><p class="none">No open items. Every action item for your profile is checked.</p>`}
+      </div>
+      <div class="cta">
+        <p><strong>${missing.length ? "Close your gaps with CertiK" : "Validate your readiness with CertiK"}</strong>
+        The GENIUS Act rule requires you to validate that your smart contracts work as intended, test your systems independently, and secure your private keys. CertiK offers smart contract audits, security assessments and on-chain monitoring to help you get there.</p>
+        <a class="btn primary" href="${CERTIK_URL}" target="_blank" rel="noopener">Visit certik.com &rarr;</a>
+      </div>`;
+    resultEl.hidden = false;
+    resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  document.getElementById("profiles").addEventListener("change", e => {
+    if (e.target.name !== "profile") return;
+    const state = loadState();
+    state.profile = e.target.value;
+    saveState(state);
+    resultEl.hidden = true;
+    renderProfiles();
+    render();
+  });
+  custodyToggle.addEventListener("change", () => {
+    const state = loadState();
+    state.custody = custodyToggle.checked;
+    saveState(state);
+    resultEl.hidden = true;
+    render();
+  });
+  form.addEventListener("change", e => {
+    if (e.target.type !== "checkbox") return;
+    const state = loadState();
+    state.checked = state.checked || {};
+    state.checked[e.target.name] = e.target.checked;
+    saveState(state);
+    updateProgress();
+    resultEl.hidden = true;
+  });
+  document.getElementById("score-btn").addEventListener("click", showResult);
+  document.getElementById("reset-btn").addEventListener("click", () => {
+    const state = loadState();
+    saveState({ profile: state.profile, custody: state.custody });
+    resultEl.hidden = true;
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  renderProfiles();
+  render();
+</script>
+</body>
+</html>
